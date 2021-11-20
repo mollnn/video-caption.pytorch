@@ -62,7 +62,6 @@ class COCOScorer(object):
             #            print ID
             gts[ID] = GT[ID]
             res[ID] = RES[ID]
-        print('tokenization...')
         tokenizer = PTBTokenizer()
         gts = tokenizer.tokenize(gts)
         res = tokenizer.tokenize(res)
@@ -70,7 +69,6 @@ class COCOScorer(object):
         # =================================================
         # Set up scorers
         # =================================================
-        print('setting up scorers...')
         scorers = [
             (Bleu(4), ["Bleu_1", "Bleu_2", "Bleu_3", "Bleu_4"]),
             (Meteor(),"METEOR"),

@@ -53,20 +53,23 @@ def test(model, crit, dataset, vocab, opt):
             video_id = video_ids[k]
             samples[video_id] = [{'image_id': video_id, 'caption': sent}]
 
-    with suppress_stdout_stderr():
-        valid_score = scorer.score(gts, samples, samples.keys())
-    results.append(valid_score)
-    print(valid_score)
+    print(samples)
 
-    if not os.path.exists(opt["results_path"]):
-        os.makedirs(opt["results_path"])
+    # 以下代码在 win10 上无法正常运行
+    # with suppress_stdout_stderr():
+    #     valid_score = scorer.score(gts, samples, samples.keys())
+    # results.append(valid_score)
+    # print(valid_score)
 
-    with open(os.path.join(opt["results_path"], "scores.txt"), 'a') as scores_table:
-        scores_table.write(json.dumps(results[0]) + "\n")
-    with open(os.path.join(opt["results_path"],
-                           opt["model"].split("/")[-1].split('.')[0] + ".json"), 'w') as prediction_results:
-        json.dump({"predictions": samples, "scores": valid_score},
-                  prediction_results)
+    # if not os.path.exists(opt["results_path"]):
+    #     os.makedirs(opt["results_path"])
+
+    # with open(os.path.join(opt["results_path"], "scores.txt"), 'a') as scores_table:
+    #     scores_table.write(json.dumps(results[0]) + "\n")
+    # with open(os.path.join(opt["results_path"],
+    #                        opt["model"].split("/")[-1].split('.')[0] + ".json"), 'w') as prediction_results:
+    #     json.dump({"predictions": samples, "scores": valid_score},
+    #               prediction_results)
 
 
 def main(opt):
