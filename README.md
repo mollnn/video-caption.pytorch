@@ -25,6 +25,11 @@ MSR-VTT. Test video doesn't have captions, so I spilit train-viedo to train/val/
 - json info of train-video: [download link](https://drive.google.com/file/d/1LcTtsAvfnHhUfHMiI4YkDgN7lF1-_-m7/view?usp=sharing)
 - json info of test-video: [download link](https://drive.google.com/file/d/1Kgra0uMKDQssclNZXRLfbj9UQgBv-1YE/view?usp=sharing)
 
+以上链接已经失效，可以下载 16 版重新整理
+
+https://www.mediafire.com/folder/h14iarbs62e7p/shared
+
+(modified by mollnn)
 
 ## Options
 
@@ -43,24 +48,24 @@ you can use [video-classification-3d-cnn-pytorch](https://github.com/kenshohara/
 1. preprocess videos and labels
 
 ```bash
-python prepro_feats.py --output_dir data/feats/resnet152 --model resnet152 --n_frame_steps 40  --gpu 4,5
-
+python prepro_feats.py --output_dir data/feats/resnet152 --model resnet152 --n_frame_steps 40  --gpu 0
 python prepro_vocab.py
 ```
+(modified by mollnn)
 
 2. Training a model
 
 ```bash
-
-python train.py --gpu 0 --epochs 3001 --batch_size 300 --checkpoint_path data/save --feats_dir data/feats/resnet152 --model S2VTAttModel  --with_c3d 1 --c3d_feats_dir data/feats/c3d_feats --dim_vid 2048
+python train.py --gpu 0 --epochs 3001 --batch_size 1 --checkpoint_path data/save --feats_dir data/feats/resnet152 --model S2VTAttModel --with_c3d 0 --dim_vid 2048
 ```
+(modified by mollnn)
 
 3. test
 
     opt_info.json will be in same directory as saved model.
 
 ```bash
-python eval.py --recover_opt data/save/opt_info.json --saved_model data/save/model_1000.pth --batch_size 100 --gpu 1
+python eval.py --recover_opt data/save/opt_info.json --saved_model data/save/model_1000.pth --batch_size 100 --gpu 0
 ```
 
 ## TODO

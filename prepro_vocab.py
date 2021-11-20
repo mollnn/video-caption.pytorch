@@ -77,7 +77,7 @@ if __name__ == "__main__":
     parser.add_argument('--caption_json', default='data/caption.json', help='caption json file')
 
 
-    parser.add_argument('--word_count_threshold', default=1, type=int,
+    parser.add_argument('--word_count_threshold', default=0, type=int,
                         help='only words that occur more than this number of times will be put in vocab')
 
     args = parser.parse_args()
