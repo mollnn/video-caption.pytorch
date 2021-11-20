@@ -63,6 +63,7 @@ class COCOScorer(object):
             gts[ID] = GT[ID]
             res[ID] = RES[ID]
         tokenizer = PTBTokenizer()
+        print(gts)
         gts = tokenizer.tokenize(gts)
         res = tokenizer.tokenize(res)
 

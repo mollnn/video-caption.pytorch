@@ -40,7 +40,7 @@ def extract_feats(params, model, load_image_fn):
     if not os.path.isdir(dir_fc):
         os.mkdir(dir_fc)
     print("save video feats to %s" % (dir_fc))
-    video_list = glob.glob(os.path.join(params['video_path'], '*.mp4'))
+    video_list = glob.glob(os.path.join(params['video_path'], '*.avi'))
     for video in tqdm(video_list):
         video_id = video.split("/")[-1].split(".")[0]
         dst = params['model'] + '_' + video_id

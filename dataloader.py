@@ -46,21 +46,28 @@ class VideoDataset(Dataset):
         """
         # which part of data to load
         if self.mode == 'val':
-            ix += len(self.splits['train'])
+            ix += len(self.splits['train']) + 17251
         elif self.mode == 'test':
-            ix = ix + len(self.splits['train']) + len(self.splits['val'])
-        
+            ix = ix + len(self.splits['train']) + \
+                17251 + len(self.splits['val'])
+        else:
+            ix += 17251
+
+        print("ix", ix)
+
         fc_feat = []
         for dir in self.feats_dir:
-            fc_feat.append(np.load(os.path.join(dir, 'video%i.npy' % (ix))))
+            fc_feat.append(np.load(os.path.join(dir, 'G_%i.npy' % (ix))))
         fc_feat = np.concatenate(fc_feat, axis=1)
         if self.with_c3d == 1:
-            c3d_feat = np.load(os.path.join(self.c3d_feats_dir, 'video%i.npy'%(ix)))
+            c3d_feat = np.load(os.path.join(
+                self.c3d_feats_dir, 'G_%i.npy' % (ix)))
             c3d_feat = np.mean(c3d_feat, axis=0, keepdims=True)
-            fc_feat = np.concatenate((fc_feat, np.tile(c3d_feat, (fc_feat.shape[0], 1))), axis=1)
+            fc_feat = np.concatenate(
+                (fc_feat, np.tile(c3d_feat, (fc_feat.shape[0], 1))), axis=1)
         label = np.zeros(self.max_len)
         mask = np.zeros(self.max_len)
-        captions = self.captions['video%i'%(ix)]['final_captions']
+        captions = self.captions['G_%i' % (ix)]['final_captions']
         gts = np.zeros((len(captions), self.max_len))
         for i, cap in enumerate(captions):
             if len(cap) > self.max_len:
@@ -80,7 +87,7 @@ class VideoDataset(Dataset):
         data['labels'] = torch.from_numpy(label).type(torch.LongTensor)
         data['masks'] = torch.from_numpy(mask).type(torch.FloatTensor)
         data['gts'] = torch.from_numpy(gts).long()
-        data['video_ids'] = 'video%i'%(ix)
+        data['video_ids'] = 'G_%i' % (ix)
         return data
 
     def __len__(self):
